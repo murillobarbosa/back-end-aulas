@@ -1,7 +1,7 @@
 /****************************************************************
   * Objetivo : Realizar a media escolar de 4 notas do aluno
   * Data: 27/01/2023
-  * Autor: Guilherme Lima
+  * Autor: Murillo
   * Versão: 1.0
 *****************************************************************/
 

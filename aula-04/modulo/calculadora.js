@@ -1,7 +1,7 @@
 /*********************************************************************
  * Objetivo: Arquivo de funções para realizar calculos matemáticos
  * Data: 03/02/2023
- * Autor: Guilherme Lima
+ * Autor: Murillo
  * versão: 1.0
  *********************************************************************/
 

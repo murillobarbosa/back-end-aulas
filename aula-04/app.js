@@ -1,7 +1,7 @@
 /******************************************
  * Objetivo: Realizar calculos matemáticos (SOMA, SUBTRAÇÃO, MULTIPLICAÇÃO E DIVISÃO)
  * Data: 03/02/2023
- * Autor: Guilherme Lima
+ * Autor: Murillo
  * versão: 1.0
  *****************************************/
 
