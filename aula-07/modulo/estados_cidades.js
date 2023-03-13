@@ -22499,133 +22499,164 @@ var estadosCidades = {
     ]
 };
 
+const getListaDeEstados = function(siglaEstado) {
 
-
-const getListaDeEstados = function(){
- let uf = [] 
-
- estadosCidades.estados.forEach(function(estado){
-    uf.push(estado.sigla)
- })
-
-   let jsonEstado = {uf: uf, quantidade: estadosCidades.estados.length}
-   return jsonEstado
-
- 
-}
-console.log(getListaDeEstados())
-
-const getDadosEstado = function(){
-   let listaDadosDoEstado = {}
-
-   estadosCidades.estados.forEach(function(estado){
-      listaDadosDoEstado = {uf: estado.sigla, descricao: estado.nome, capital: estado.capital, regiao: estado.regiao}
-      
-   })
-   return listaDadosDoEstado
-   
-}
-console.log(getDadosEstado())
-
-
-function getCapitalEstado(siglaEstado) {
-
-   let listaDadosDoEstado = {}
+   let siglasJSON = {}
+   let uf = []
    let status = false
 
-   estadosCidades.estados.forEach(estados => {
+   estadosCidades.estados.forEach(function(estados) {
+       uf.push(estados.sigla)
+   })
+   estadosCidades.estados.forEach(function(estados) {
+
+       if (siglaEstado == estados.sigla) {
+           siglasJSON.uf = estados.sigla
+           siglasJSON.descricao = estados.nome
+           estadosJSON.capital = estados.capital
+           estadosJSON.regiao = estados.regiao
+           status = true
+       }
+   })
+
+   if (status == true) {
+       return siglasJSON
+   } else {
+       return status
+   }
+}
+   
+
+console.log(getListaDeEstados());
+console.log('\n')
+
+const getDadosEstados = function(siglaEstado) {
+
+   let estadosJSON = {}
+   let status = false // Para Mostra false caso não exista a Sigla do Estado
+
+   estadosCidades.estados.forEach(function(estados) {
+
+       if (siglaEstado == estados.sigla) {
+           estadosJSON.uf = estados.sigla
+           estadosJSON.descricao = estados.nome
+           estadosJSON.capital = estados.capital
+           estadosJSON.regiao = estados.regiao
+           status = true
+       }
+   })
+
+   if (status == true) {
+       return estadosJSON
+   } else {
+       return status
+   }
+}
+console.log(getDadosEstados('BA'));
+console.log('\n')
+
+const getCapitalEstado = function(siglaEstado) {
+
+   let dadosDoEstadoJSON = {}
+   let status = false // Para Mostra false caso não exista a Sigla do Estado
+
+   estadosCidades.estados.forEach(function(estados) {
 
        if (siglaEstado == estados.sigla) {
 
-         listaDadosDoEstado.uf = estados.sigla
-         listaDadosDoEstado.descricao = estados.nome
-         listaDadosDoEstado.capital = estados.capital
-         status = true
+           dadosDoEstadoJSON.uf = estados.sigla
+           dadosDoEstadoJSON.descricao = estados.nome
+           dadosDoEstadoJSON.capital = estados.capital
+           status = true
        }
-
-
-
    })
 
-   if (status == true)
-       return listaDadosDoEstado
-   else
+   if (status == true) {
+       return dadosDoEstadoJSON
+   } else {
        return status
-
-       
+   }
 }
 console.log(getCapitalEstado('SP'));
+console.log('\n')
 
- 
+const getEstadosRegiao = function(nomeRegiao) {
 
-function getEstadosRegiao(regiaoPais){
-   let jsonEstadosRegiao = {}
-   let verOsEstados = []
+   dadoDaRegiaoJSON = {}
+   let arrayEstados = []
 
-   estadosCidades.estados.forEach(function(estado){
-      if(estado.regiao == regiaoPais){
-         verOsEstados.push(estado.sigla, estado.nome, estado.capital)
-      }
+   estadosCidades.estados.forEach(function(estado) {
+
+       if (estado.regiao == nomeRegiao) {
+           arrayEstados.push(estado.sigla, estado.nome)
+       }
    })
-   jsonEstadosRegiao = {regiao: regiaoPais, estado: verOsEstados}
-   return jsonEstadosRegiao
+
+
+   dadoDaRegiaoJSON = { regiao: nomeRegiao, estados: arrayEstados }
+
+   return dadoDaRegiaoJSON
 }
-console.log(getEstadosRegiao('Sudeste'))
+console.log(getEstadosRegiao('Sul'));
+console.log('\n')
 
-function getCapitalPais(){
-   let lista = []
-   let listaDosEstadoJSON = {}
-  
-   
+const getCapitalPais = function() {
+
+   let arrayCapitais = []
+   let listaDasCapitaisJSON = {}
+
+
    estadosCidades.estados.forEach(estados => {
-      if(estados.capital_pais != undefined)lista.push({
-         capital_atual: estados.capital_pais.capital,
-         uf: estados.sigla,
-         descricao: estados.nome,
-         capital: estados.capital,
-         regiao: estados.regiao,
-         capital_pais_ano_inicio: estados.capital_pais.ano_inicio,
-         capital_pais_ano_termino: estados.capital_pais.ano_fim
+       if (estados.capital_pais != undefined) arrayCapitais.push({
+           capital_atual: estados.capital_pais.capital,
+           uf: estados.sigla,
+           descricao: estados.nome,
+           capital: estados.capital,
+           regiao: estados.regiao,
+           capital_pais_ano_inicio: estados.capital_pais.ano_inicio,
+           capital_pais_ano_termino: estados.capital_pais.ano_fim
 
-      })
-      listaDosEstadoJSON.capitais = lista
+       })
+       listaDasCapitaisJSON.capitais = arrayCapitais
    })
-   return lista.length != 0 ? listaDosEstadoJSON : false
+   return arrayCapitais.length != 0 ? listaDasCapitaisJSON : false
 
 }
 console.log(getCapitalPais())
+console.log('\n')
 
-function getCidades(siglaDoEstado) {
-
-   let listaEstadosJson = {}
-   let lista = []
+const getCidades = function(siglaDoEstado) {
+   let cidadesJson = {}
+   let arrayCidades = []
 
    estadosCidades.estados.forEach(estados => {
 
        if (siglaDoEstado == estados.sigla) {
-           listaEstadosJson.uf = estados.sigla
-           listaEstadosJson.descricao = estados.nome
-           listaEstadosJson.quantidade_cidades = estados.cidades.length
+           cidadesJson.uf = estados.sigla
+           cidadesJson.descricao = estados.nome
+           cidadesJson.quantidade_cidades = estados.cidades.length
            estados.cidades.forEach(cidadesDoForEach => {
-               lista.push(cidadesDoForEach.nome)
+               arrayCidades.push(cidadesDoForEach.nome)
            })
-           listaEstadosJson.cidades = lista
+           cidadesJson.cidades = arrayCidades
 
        }
    })
-   return lista.length != 0 ? listaEstadosJson : false
+   return arrayCidades.length != 0 ? cidadesJson : false
 }
 
-console.log(getCidades('AC'))
+console.log(getCidades('AC'));
 
 module.exports = {
    getListaDeEstados,
-   getDadosEstado,
+   getDadosEstados,
    getCapitalEstado,
    getEstadosRegiao,
    getCapitalPais,
    getCidades
+
 }
+
 
 
 
