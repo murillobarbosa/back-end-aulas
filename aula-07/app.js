@@ -1,13 +1,13 @@
-/*************************************************************************
+/*
  * Objetivo: Criar uma API para manipulação de dados de Estados e Cidades 
  * Autor: Murillo
  * Data: 10/03/2023
  * Versão: 1.0
  * 
- *************************************************************************/
+ */
 
 
-/**
+/*
  * Express - dependencia do Node, que permite a integração entre o protocolo http com o codigo
  *          npm install express --save
  * 
@@ -17,7 +17,7 @@
  * Body-parser - É uma dependecia que permite manipular dados enviados pelo body da requisição
  *          npm install body-parser --save
  * 
- **/
+ */
 
 //  Import das dependencias para criar a API 
 
