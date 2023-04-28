@@ -4,21 +4,35 @@
  * Data: 14/04/2023
  * Versão: 1.0
  */
-
+// Import do arquivo de acesso ao BD
+var alunoDAO = require('../model/dao/alunoDAO.js');
 // Função para receber dados do APP e enviar para a Model
-const inserirAluno = function (dadosAluno) {
-}
+const inserirAluno = async function (dadosAluno) {
+    let message = require('./modulo/config.js');
+    if (dadosAluno.nome == '' || dadosAluno.nome == undefined || dadosAluno.nome.length >= 100 ||
+        dadosAluno.cpf == '' || dadosAluno.cpf == undefined || dadosAluno.cpf > 18 ||
+        dadosAluno.rg == '' || dadosAluno.rg == undefined || dadosAluno.rg > 15 ||
+        dadosAluno.data_nascimento == '' || dadosAluno.data_nascimento == undefined || dadosAluno.data_nascimento > 10 ||
+        dadosAluno.email == '' || dadosAluno.email == undefined || dadosAluno.email > 250
+    ){
+       message.ERROR_REQUIRED_DATA;
+    }else{
+        // Envia os dados a model a serem inseridos no BD
+        let status = await alunoDAO.insertAluno(dadosAluno);
+        if(status)
+            return message.CREATED_ITEM;
+        else 
+            return message.ERROR_INTERNAL_SERVER 
+    }
+};
 // Função para receber dados do APP e enviar para a Model para atualizar um item existentes
 const atualizarAluno = function (dadosAluno) {
-}
+};
 // Função para excluir um aluno filtrado pelo ID, que será encaminhado para a model
 const deletarAluno = function (id) {
-}
+};
 // Função para retornar todos os itens da tabela recebidos da model
 const selecionarTodosAlunos = async function () {
-    // Import do arquivo de acesso ao BD
-    let alunoDAO = require('../model/dao/alunoDAO.js');
-
     // Solicita ao DAO todos os alunos do BD
     let dadosAluno = await alunoDAO.selectAllAluno();
 
@@ -32,11 +46,12 @@ const selecionarTodosAlunos = async function () {
         return dadosJson
     } else
         return false;
-}
+};
 // Função para buscar um item filtrado pelo ID, que será encaminhado para a model
 const buscarIdAluno = function (id) {
-}
+};
 
 module.exports = {
-    selecionarTodosAlunos
-}
+    selecionarTodosAlunos,
+    inserirAluno
+};
