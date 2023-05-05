@@ -11,26 +11,40 @@ var { PrismaClient } = require('@prisma/client');
 var prisma = new PrismaClient();
 
 // Inserir um novo registro no Banco de Dados
-const insertAluno = async function (dadosAluno) {
+const insertAluno = async function(dadosAluno) {
     // Script SQL para inserir os dados no BD
     let sql = `insert into tbl_aluno (nome, cpf, rg, data_nascimento, email)values('${dadosAluno.nome}', '${dadosAluno.cpf}', '${dadosAluno.rg}', '${dadosAluno.data_nascimento}', '${dadosAluno.email}')`;
     // Executa o script SQL no BD e recebemos o retorno se deu certo ou não
     let result = await prisma.$executeRawUnsafe(sql);
 
 
-    if(result)
+    if (result)
         return true
     else
-        return false    
+        return false
 };
 // Atualizar um novo registro no Banco de Dados
-const updateAluno = function (dadosAluno) {
+const updateAluno = async function(dadosAluno) {
+    let sql = `update tbl_aluno set nome = '${dadosAluno.nome}',
+                                    rg = '${dadosAluno.rg}',
+                                    cpf = '${dadosAluno.cpf}',
+                                    data_nascimento = '${dadosAluno.data_nascimento}',
+                                    email = '${dadosAluno.email}'
+                                    where id = ${dadosAluno.id}
+
+    `;
+
+    let result = await prisma.$executeRawUnsafe(sql);
+
+    if (result)
+        return true;
+    else
+        return false;
 };
 // Excluir um novo registro no Banco de Dados
-const deleteAluno = function (id) {
-};
+const deleteAluno = function(id) {};
 // Retorna todos os Registros do Banco de Dados
-const selectAllAluno = async function () {
+const selectAllAluno = async function() {
 
     // Variavel com o scriptSQL para executar o BD
     let sql = 'select * from tbl_aluno';
@@ -48,10 +62,10 @@ const selectAllAluno = async function () {
 
 };
 // Retorna um registro filtrado pelo ID do Banco de Dados
-const selectByidAluno = function (id) {
-};
+const selectByidAluno = function(id) {};
 
 module.exports = {
     selectAllAluno,
-    insertAluno
+    insertAluno,
+    updateAluno
 };
