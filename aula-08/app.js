@@ -13,7 +13,6 @@
        npm install @prisma/client
 */
 
-
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
@@ -47,22 +46,29 @@ app.get('/v1/lion-school/aluno', cors(), async function(request, response) {
     let dados = await controllerAluno.selecionarTodosAlunos();
 
     // Valida se existem registros para retornar a requisição
-    if (dados) {
-        response.json(dados);
-        response.status(200);
-    } else {
-        response.json();
-        response.status(404);
-    }
+    response.status(dados.status)
+    response.json(dados)
 
 });
 
 // EndPoint: Retorna todos os dados do aluno pelo ID
-app.get('/v1/lion-school/:id', cors(), async function(request, response) {});
+app.get('/v1/lion-school/aluno/:id', cors(), async function(request, response) {
+
+    // Recebe o ID enviado da requisição
+    let idAluno = request.params.id;
+    // Solicita a controller que retorna todos os alunos do BD
+    let dados = await controllerAluno.buscarIdAluno(idAluno);
+
+    // Valida se existem registros para retornar a requisição
+    response.status(dados.status)
+    response.json(dados)
+
+
+});
 // EndPoint: Inserir um novo aluno
 app.post('/v1/lion-school/aluno', cors(), bodyJSON, async function(request, response) {
 
-    let contentType = request.headers['content-Type'];
+    let contentType = request.headers['content-type'];
     if (contentType == 'application/json') {
         // Recebe os dados encaminhados no body da requisição
         let dadosBody = request.body;
@@ -98,7 +104,15 @@ app.put('/v1/lion-school/:id', cors(), bodyJSON, async function(request, respons
     response.json(resultUpdateDados);
 });
 // EndPoint: Exclui um aluno pelo ID
-app.delete('/v1/lion-school/:id', cors(), async function(request, response) {});
+app.delete('/v1/lion-school/:id', cors(), async function(request, response) {
+    let idAluno = request.params.id;
+    let resultDeleteDados = await controllerAluno.deletarAluno(idAluno)
+
+    response.status(resultDeleteDados.status)
+    response.json(resultDeleteDados)
+
+
+});
 
 app.listen(8080, function() {
     console.log('Servidor aguardando requisição');

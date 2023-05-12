@@ -42,7 +42,19 @@ const updateAluno = async function(dadosAluno) {
         return false;
 };
 // Excluir um novo registro no Banco de Dados
-const deleteAluno = function(id) {};
+const deleteAluno = async function(id) {
+    let sql = `delete from tbl_aluno where id = ${id}`;
+
+    let result = await prisma.$executeRawUnsafe(sql);
+
+    if (result) {
+        return true;
+    } else {
+        return false;
+
+    }
+
+};
 // Retorna todos os Registros do Banco de Dados
 const selectAllAluno = async function() {
 
@@ -62,10 +74,42 @@ const selectAllAluno = async function() {
 
 };
 // Retorna um registro filtrado pelo ID do Banco de Dados
-const selectByidAluno = function(id) {};
+const selectByidAluno = async function(id) {
+    // Variavel com o scriptSQL para executar o BD
+    let sql = `select * from tbl_aluno where id = ${id}`;
+
+    // Executa no BD o scriptSQL
+    // $queryRawUnsafe() é utilizado quando o scriptSQL esta em uma variavel
+    // $queryRaw() é utilizado quando passar o script direto no metodo (EX: $queryRaw('select * from tbl_aluno'))
+    let rsAluno = await prisma.$queryRawUnsafe(sql);
+
+    // Valida se o BO retornou algum registro
+    if (rsAluno.length > 0)
+        return rsAluno;
+    else
+        return false;
+
+};
+
+
+const selectLastId = async function() {
+    //Script para retornar apenas o ultimo registro inserido na tabela
+    let sql = 'select id from tbl_aluno order by id desc limit 1';
+
+    let rsAluno = await prisma.$queryRawUnsafe(sql);
+
+    if (rsAluno.length > 0)
+        return rsAluno[0].id;
+    else
+        return false;
+
+};
 
 module.exports = {
     selectAllAluno,
     insertAluno,
-    updateAluno
+    updateAluno,
+    deleteAluno,
+    selectByidAluno,
+    selectLastId
 };
